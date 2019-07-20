@@ -1,0 +1,15 @@
+{
+    "require": {
+        "league/commonmark": "^1.0",
+        "phpunit/phpunit": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pulsestorm\\CommonMark\\":"src"
+        }
+    },
+    "scripts":{
+        "test":"./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/*.php"
+    }
+}
+
