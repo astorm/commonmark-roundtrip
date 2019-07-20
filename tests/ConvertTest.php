@@ -14,37 +14,36 @@ class ConvertTest extends TestCase
 
     public function getFiles() : array {
         return [
-            'docs/magento2-database.md',
-            'docs/magento2-mvc.md',
-            'docs/pestle-third-party.md',
-            'docs/magento2-scans-and-reports.md',
-            'docs/magento2-generate-acl.md',
-            'docs/magento2-generate-ui.md',
-            'docs/magento2-di-observers.md',
-            'docs/magento2-introduction.md',
-            'docs/magento2-other-introduction.md',
-            'docs/dev-internals-enviornment.md',
-            'docs/dev-internals-introduction.md',
-            'docs/magento2-other-other.md',
-            'docs/magento2-others.md',
-            'docs/pestle-generate.md',
-            'docs/dev-internals-theroy-of-operation.md',
-            'docs/index.md',
-            'docs/magento2-module-setup.md',
-            'docs/magento2-generate-full-module.md',
-            'docs/pestle-library.md',
-            'docs/dev-internals-build.md',
-            'docs/magento2-quick-conversions.md',
+//             'magento2-database.md',
+//             'magento2-mvc.md',
+//             'pestle-third-party.md',
+//             'magento2-scans-and-reports.md',
+//             'magento2-generate-acl.md',
+//             'magento2-generate-ui.md',
+//             'magento2-di-observers.md',
+//             'magento2-introduction.md',
+//             'magento2-other-introduction.md',
+//             'dev-internals-enviornment.md',
+//             'dev-internals-introduction.md',
+//             'magento2-other-other.md',
+//             'magento2-others.md',
+//             'pestle-generate.md',
+//             'dev-internals-theroy-of-operation.md',
+//             'index.md',
+//             'magento2-module-setup.md',
+            'magento2-generate-full-module.md',
+//             'pestle-library.md',
+//             'dev-internals-build.md',
+//             'magento2-quick-conversions.md',
         ];
     }
 
-    public function testCanBeCreatedFromValidEmailAddress(): void
+    public function testDocs(): void
     {
         $files = $this->getFiles();
+        $baseFolder = realpath(__DIR__) . '/fixtures';
         foreach($files as $file) {
-            $file = '/Users/alanstorm/Documents/github/astorm/pestle/' .
-                $file;
-//                 '/docs/magento2-mvc.md';
+            $file = $baseFolder . '/' . $file;
 
             $fromDisk = trim(file_get_contents($file));
             $converted = trim($this->converter->convertToMarkdown($fromDisk));
@@ -57,11 +56,19 @@ class ConvertTest extends TestCase
                 file_put_contents($path2, $converted);
                 $cmd = "diff $path1 $path2";
                 $output = `$cmd`;
-                file_put_contents('/tmp/test.log',"$file\n$cmd\n$output",FILE_APPEND);
+                $this->log("$file\nbb$cmd\n$output");
             }
 
             $this->assertEquals($path1, $path2,"meow");
         }
+    }
+
+    public function log($string) {
+        file_put_contents(
+            '/tmp/commonmark-roundtrip.log',
+            $string,
+            FILE_APPEND
+        );
     }
 }
 

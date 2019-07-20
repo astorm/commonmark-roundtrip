@@ -49,6 +49,8 @@ final class FencedCodeRenderer implements BlockRendererInterface
 //             [],
 //             new HtmlElement('code', $attrs, Xml::escape($block->getStringContent()))
 //         );
-        return '```' . "\n" . $block->getStringContent() . '```' . "\n";
+        $infoWords = $block->getInfoWords();
+
+        return '```' . implode(' ', $infoWords) . "\n" . $block->getStringContent() . '```' . "\n";
     }
 }
